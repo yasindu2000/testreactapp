@@ -1,10 +1,28 @@
 import { Button, Grid2, Input, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
-const UserForm = (props)=>{
+const UserForm = ({addUser ,submitted,data, isEdit,updateUser})=>{
 
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
+    useEffect(() => {
+        
+    
+        if(!submitted){
+            setId(0);
+            setName('');
+        }
+    }, [submitted]);
+
+    useEffect(() => {
+        
+    if(data?.id && data.id !==0 ){
+        setId(data.id);
+        setName(data.name);
+    }
+        
+        
+    }, []);
 
 return(
 
@@ -56,8 +74,10 @@ return(
             opacity:'0.7',
             backgroundColor:"#00c6e6",
         }
-       }}>
-        Add
+       }} onClick={()=>isEdit ? updateUser({id, name}) : addUser({id, name})}>
+        {
+             isEdit ? "Update" : "Add"
+    }
        </Button>
 
     </Grid2>
